@@ -99,3 +99,9 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# couch and vim
+.couchapprc
+.*.swp
+*~
+*.bak

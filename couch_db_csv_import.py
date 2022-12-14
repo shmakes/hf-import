@@ -22,6 +22,8 @@ class CouchDB_CSV_Import():
             self.data_class = models.Crew
         elif dataType.lower() == 'veteran2':
             self.data_class = models.Veteran2
+        elif dataType.lower() == 'guardian2':
+            self.data_class = models.Guardian2
         else:
             print("Data type not supported.")
             exit(1)

@@ -343,6 +343,10 @@ class Veteran2(BaseDoc):
         self.alt_contact['name'] = ''
         self.alt_contact['relation'] = ''
         self.alt_contact['address'] = {}
+        self.mail_call = {}
+        self.mail_call['name'] = ''
+        self.mail_call['relation'] = ''
+        self.mail_call['address'] = {}
         self.waiver_received = False
 
     def fix_phone_numbers(self, phone_num):
@@ -399,10 +403,10 @@ class Veteran2(BaseDoc):
         self.alt_contact['address']['phone_mbl'] = self.fix_phone_numbers(valueDict["ac_addr_phone_mbl"].strip())
         self.alt_contact['address']['email'] = self.fix_phone_numbers(valueDict["ac_addr_email"].strip())
 
-        self.alt_contact['relation'] = valueDict["mail_call_relation"].strip()
-        self.alt_contact['name'] = valueDict["mail_call_name"].strip()
-        self.alt_contact['address']['phone'] = self.fix_phone_numbers(valueDict["mail_call_addr_phone"].strip())
-        self.alt_contact['address']['email'] = self.fix_phone_numbers(valueDict["mail_call_addr_email"].strip())
+        self.mail_call['relation'] = valueDict["mail_call_relation"].strip()
+        self.mail_call['name'] = valueDict["mail_call_name"].strip()
+        self.mail_call['address']['phone'] = self.fix_phone_numbers(valueDict["mail_call_addr_phone"].strip())
+        self.mail_call['address']['email'] = self.fix_phone_numbers(valueDict["mail_call_addr_email"].strip())
 
         self.flight['status_note'] = valueDict["flight_status_note"].strip()
         self.flight['group'] = valueDict["flight_group"].strip()
@@ -415,3 +419,55 @@ class Veteran2(BaseDoc):
         self.medical['requiresOxygen'] = valueDict["medical_requires_oxygen"].strip() == 'Yes'
 
         self.guardian = { 'pref_notes': valueDict["guardian_pref_notes"].strip(), 'id': '', 'name':'', 'history': [] }
+
+class Guardian2(BaseDoc):
+    def __init__(self):
+        super(Guardian2, self).__init__()
+        self.type = 'Guardian'
+        self.app_date = None
+        self.app_date_string = ''
+        self.name = {}
+        self.address = {}
+        self.birth_date = None
+        self.birth_date_string = ''
+        self.age = ''
+        self.weight = ''
+        self.gender = ''
+        self.shirt = {}
+        self.flight = {'status': 'Active', 'history': []}
+        self.notes = {'service': 'N', 'other': ''}
+        self.guardian = {}
+
+    def fix_phone_numbers(self, phone_num):
+        return phone_num.replace("(", "").replace(")", "").replace(" ", "-")
+
+    def adapt_csv(self, valueDict):
+
+        self.app_date = valueDict["app_date"]
+
+        self.name = { 'last': valueDict["last_name"].strip(), 
+                        'first': valueDict["first_name"].strip(),
+                        'middle': valueDict["middle_name"].strip(),
+                        'nickname': valueDict["nick_name"].strip() }
+                        
+        self.address['street'] = valueDict["addr_street"].strip()
+        self.address['city'] = valueDict["addr_city"].strip()
+        self.address['county'] = valueDict["addr_county"].strip()
+        self.address['state'] = valueDict["addr_state"].strip().upper()
+        self.address['zip'] = valueDict["addr_zip"].strip()
+        self.address['phone_day'] = self.fix_phone_numbers(valueDict["addr_phone_day"].strip())
+        self.address['phone_mbl'] = self.fix_phone_numbers(valueDict["addr_phone_eve"].strip())
+        self.address['phone_eve'] = self.fix_phone_numbers(valueDict["addr_phone_mbl"].strip())
+        self.address['email'] = valueDict["addr_email"].strip()
+
+        self.birth_date = valueDict["birth_date"].strip()
+        self.gender = valueDict["gender"].strip().upper()
+        size = valueDict["shirt_size"].strip().upper() or 'None'
+        self.shirt = { 'size': size }
+
+        self.notes['service'] = valueDict["notes_service"].strip()
+        self.notes['other'] = valueDict["notes_other"].strip()
+
+        self.flight['status_note'] = valueDict["flight_status_note"].strip()
+
+        self.veteran = { 'pref_notes': valueDict["veteran_pref_notes"].strip(), 'pairings': [], 'history': [] }
