@@ -320,7 +320,7 @@ class Veteran2(BaseDoc):
         self.gender = ''
         self.vet_type = ''
         self.shirt = {}
-        self.flight = {'status': 'Active', 'history': []}
+        self.flight = {'id': 'None', 'status': 'Active', 'history': []}
         self.medical = {}
         self.medical['isWheelchairBound'] = ''
         self.medical['usesWheelchair'] = ''
@@ -341,6 +341,7 @@ class Veteran2(BaseDoc):
         self.emerg_contact['address'] = {}
         self.alt_contact = {}
         self.alt_contact['name'] = ''
+        self.flight = {'id': 'None', 'status': 'Active', 'history': []}
         self.alt_contact['relation'] = ''
         self.alt_contact['address'] = {}
         self.mail_call = {}
@@ -434,9 +435,10 @@ class Guardian2(BaseDoc):
         self.weight = ''
         self.gender = ''
         self.shirt = {}
-        self.flight = {'status': 'Active', 'history': []}
+        self.flight = {'id': 'None', 'status': 'Active', 'history': []}
         self.notes = {'service': 'N', 'other': ''}
-        self.guardian = {}
+        self.medical = {'release': False, 'can_push': False, 'can_lift': False, 'limitations': 'false', 'experience': 'false', 'level': ''}
+        self.veteran = {}
 
     def fix_phone_numbers(self, phone_num):
         return phone_num.replace("(", "").replace(")", "").replace(" ", "-")
