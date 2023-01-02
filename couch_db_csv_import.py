@@ -1,5 +1,6 @@
 import models
 import couchdb
+import json
 from sys import exit
 
 class CouchDB_CSV_Import():
@@ -39,7 +40,7 @@ class CouchDB_CSV_Import():
             if hasattr(data_point, 'metadata'):
                 data_point.metadata['created_by'] = 'couch_db_csv_import v01.00'
             data_point.adapt_csv(row)
-            data_enc = data_point.__dict__
+            data_enc = json.loads(json.dumps(data_point.__dict__))
             print(data_enc)
             rowCount += 1
             self.db.save(data_enc)

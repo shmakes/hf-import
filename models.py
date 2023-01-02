@@ -320,7 +320,7 @@ class Veteran2(BaseDoc):
         self.gender = ''
         self.vet_type = ''
         self.shirt = {}
-        self.flight = {'id': 'None', 'status': 'Active', 'history': []}
+        self.flight = {'id': 'None', 'status': 'Active', 'paid': 'N', 'confirmed_date': '', 'confirmed_by': '', 'seat': '', 'bus': 'None', 'history': []}
         self.medical = {}
         self.medical['isWheelchairBound'] = ''
         self.medical['usesWheelchair'] = ''
@@ -334,14 +334,13 @@ class Veteran2(BaseDoc):
         self.service['rank'] = ''
         self.service['dates'] = ''
         self.service['activity'] = ''
-        self.guardian = {}
+        self.guardian = {'name': ''}
         self.emerg_contact = {}
         self.emerg_contact['name'] = ''
         self.emerg_contact['relation'] = ''
         self.emerg_contact['address'] = {}
         self.alt_contact = {}
         self.alt_contact['name'] = ''
-        self.flight = {'id': 'None', 'status': 'Active', 'history': []}
         self.alt_contact['relation'] = ''
         self.alt_contact['address'] = {}
         self.mail_call = {}
@@ -349,6 +348,10 @@ class Veteran2(BaseDoc):
         self.mail_call['relation'] = ''
         self.mail_call['address'] = {}
         self.waiver_received = False
+        self.apparel = {'item': 'None', 'date': '', 'delivery': 'None', 'by': '', 'notes': ''}
+        self.call = {'assigned_to': '', 'fm_number': '', 'mail_sent': False, 'email_sent': False, 'history': []}
+        self.accommodations = {}
+        self.homecoming = {'destination': ''}
 
     def fix_phone_numbers(self, phone_num):
         return phone_num.replace("(", "").replace(")", "").replace(" ", "-")
@@ -377,6 +380,8 @@ class Veteran2(BaseDoc):
         self.gender = valueDict["gender"].strip().upper()
         size = valueDict["shirt_size"].strip().upper() or 'None'
         self.shirt = { 'size': size }
+        self.apparel['shirt_size'] = size
+        #self.apparel['jacket_size'] = valueDict["jacket_size"].strip().upper() or 'None'
 
         self.service['branch'] = valueDict["service_branch"].strip()
         self.service['rank'] = valueDict["service_rank"].strip()
@@ -411,6 +416,7 @@ class Veteran2(BaseDoc):
 
         self.flight['status_note'] = valueDict["flight_status_note"].strip()
         self.flight['group'] = valueDict["flight_group"].strip()
+        self.flight['vaccinated'] = valueDict["flight_group"].strip() == 'Yes'
 
         self.medical['limitations'] = valueDict["medical_limitations"].strip()
         self.medical['usesCane'] = valueDict["medical_uses_cane"].strip() == 'Yes'
