@@ -320,7 +320,7 @@ class Veteran2(BaseDoc):
         self.gender = ''
         self.vet_type = ''
         self.shirt = {}
-        self.flight = {'id': 'None', 'status': 'Active', 'paid': 'N', 'confirmed_date': '', 'confirmed_by': '', 'seat': '', 'bus': 'None', 'history': []}
+        self.flight = {'id': 'None', 'status': 'Active', 'confirmed_date': '', 'confirmed_by': '', 'seat': '', 'bus': 'None', 'history': []}
         self.medical = {}
         self.medical['isWheelchairBound'] = ''
         self.medical['usesWheelchair'] = ''
@@ -381,7 +381,7 @@ class Veteran2(BaseDoc):
         size = valueDict["shirt_size"].strip().upper() or 'None'
         self.shirt = { 'size': size }
         self.apparel['shirt_size'] = size
-        #self.apparel['jacket_size'] = valueDict["jacket_size"].strip().upper() or 'None'
+        self.apparel['jacket_size'] = valueDict["jacket_size"].strip().upper() or 'None'
 
         self.service['branch'] = valueDict["service_branch"].strip()
         self.service['rank'] = valueDict["service_rank"].strip()
@@ -441,10 +441,29 @@ class Guardian2(BaseDoc):
         self.weight = ''
         self.gender = ''
         self.shirt = {}
-        self.flight = {'id': 'None', 'status': 'Active', 'history': []}
+        self.emerg_contact = {}
+        self.emerg_contact['name'] = ''
+        self.emerg_contact['relation'] = ''
+        self.emerg_contact['address'] = {}
         self.notes = {'service': 'N', 'other': ''}
+
+
+        self.flight = {'id': 'None', 'status': 'Active', 'confirmed_date': '', 'confirmed_by': '', 'seat': '', 'bus': 'None', 'history': []}
         self.medical = {'release': False, 'can_push': False, 'can_lift': False, 'limitations': 'false', 'experience': 'false', 'level': ''}
-        self.veteran = {}
+
+        self.medical = {}
+
+        self.alt_contact = {}
+        self.alt_contact['name'] = ''
+        self.alt_contact['relation'] = ''
+        self.alt_contact['address'] = {}
+        self.mail_call = {}
+        self.mail_call['name'] = ''
+        self.mail_call['relation'] = ''
+        self.mail_call['address'] = {}
+        self.apparel = {'item': 'None', 'date': '', 'delivery': 'None', 'by': '', 'notes': ''}
+        self.call = {'assigned_to': '', 'fm_number': '', 'mail_sent': False, 'email_sent': False, 'history': []}
+        self.accommodations = {}
 
     def fix_phone_numbers(self, phone_num):
         return phone_num.replace("(", "").replace(")", "").replace(" ", "-")
@@ -472,10 +491,19 @@ class Guardian2(BaseDoc):
         self.gender = valueDict["gender"].strip().upper()
         size = valueDict["shirt_size"].strip().upper() or 'None'
         self.shirt = { 'size': size }
+        self.apparel['shirt_size'] = size
+        self.apparel['jacket_size'] = valueDict["jacket_size"].strip().upper() or 'None'
+
+        self.emerg_contact['relation'] = valueDict["ec_relation"].strip()
+        self.emerg_contact['name'] = valueDict["ec_name"].strip()
+        self.emerg_contact['address']['phone'] = self.fix_phone_numbers(valueDict["ec_addr_phone"].strip())
+        self.emerg_contact['address']['phone_eve'] = self.fix_phone_numbers(valueDict["ec_addr_phone_eve"].strip())
+        self.emerg_contact['address']['phone_mbl'] = self.fix_phone_numbers(valueDict["ec_addr_phone_mbl"].strip())
 
         self.notes['service'] = valueDict["notes_service"].strip()
         self.notes['other'] = valueDict["notes_other"].strip()
 
-        self.flight['status_note'] = valueDict["flight_status_note"].strip()
+        self.flight['paid'] = valueDict["flight_paid"].strip() == 'Yes'
+        self.flight['status_note'] = valueDict["flight_status_notes"].strip()
 
         self.veteran = { 'pref_notes': valueDict["veteran_pref_notes"].strip(), 'pairings': [], 'history': [] }
