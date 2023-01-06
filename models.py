@@ -503,7 +503,7 @@ class Guardian2(BaseDoc):
         self.emerg_contact['address']['phone_eve'] = self.fix_phone_numbers(valueDict["ec_addr_phone_eve"].strip())
         self.emerg_contact['address']['phone_mbl'] = self.fix_phone_numbers(valueDict["ec_addr_phone_mbl"].strip())
 
-        self.notes['service'] = valueDict["notes_service"].strip()
+        self.notes['service'] = 'Y' if valueDict["notes_service"].strip() == "Yes" else 'N'
         self.notes['other'] = valueDict["notes_other"].strip()
 
         self.flight['paid'] = valueDict["flight_paid"].strip() == 'Yes'
