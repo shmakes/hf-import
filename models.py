@@ -309,11 +309,11 @@ class Veteran2(BaseDoc):
     def __init__(self):
         super(Veteran2, self).__init__()
         self.type = 'Veteran'
-        self.app_date = None
+        self.app_date = ''
         self.app_date_string = ''
         self.name = {}
         self.address = {}
-        self.birth_date = None
+        self.birth_date = ''
         self.birth_date_string = ''
         self.age = ''
         self.weight = ''
@@ -372,11 +372,12 @@ class Veteran2(BaseDoc):
         self.address['state'] = valueDict["addr_state"].strip().upper()
         self.address['zip'] = valueDict["addr_zip"].strip()
         self.address['phone_day'] = self.fix_phone_numbers(valueDict["addr_phone_day"].strip())
-        self.address['phone_mbl'] = self.fix_phone_numbers(valueDict["addr_phone_eve"].strip())
-        self.address['phone_eve'] = self.fix_phone_numbers(valueDict["addr_phone_mbl"].strip())
+        self.address['phone_eve'] = self.fix_phone_numbers(valueDict["addr_phone_eve"].strip())
+        self.address['phone_mbl'] = self.fix_phone_numbers(valueDict["addr_phone_mbl"].strip())
         self.address['email'] = valueDict["addr_email"].strip()
 
         self.birth_date = valueDict["birth_date"].strip()
+        self.weight = valueDict["weight"].strip()
         self.gender = valueDict["gender"].strip().upper()
         size = valueDict["shirt_size"].strip().upper() or 'None'
         self.shirt = { 'size': size }
@@ -416,7 +417,8 @@ class Veteran2(BaseDoc):
 
         self.flight['status_note'] = valueDict["flight_status_note"].strip()
         self.flight['group'] = valueDict["flight_group"].strip()
-        self.flight['vaccinated'] = valueDict["flight_group"].strip() == 'Yes'
+        self.flight['vaccinated'] = valueDict["flight_vaccinated"].strip() == 'Yes'
+        self.flight['mediaWaiver'] = valueDict["media_ok"].strip() == 'Yes'
 
         self.medical['limitations'] = valueDict["medical_limitations"].strip()
         self.medical['usesCane'] = valueDict["medical_uses_cane"].strip() == 'Yes'
@@ -424,6 +426,7 @@ class Veteran2(BaseDoc):
         self.medical['usesWheelchair'] = valueDict["medical_uses_wheelchair"].strip() == 'Yes'
         self.medical['isWheelchairBound'] = valueDict["medical_is_wheelchair_bound"].strip() == 'Yes'
         self.medical['requiresOxygen'] = valueDict["medical_requires_oxygen"].strip() == 'Yes'
+        self.medical['release'] = valueDict["medical_release"].strip() == 'Yes'
 
         self.guardian = { 'pref_notes': valueDict["guardian_pref_notes"].strip(), 'id': '', 'name':'', 'history': [] }
 
@@ -431,11 +434,11 @@ class Guardian2(BaseDoc):
     def __init__(self):
         super(Guardian2, self).__init__()
         self.type = 'Guardian'
-        self.app_date = None
+        self.app_date = ''
         self.app_date_string = ''
         self.name = {}
         self.address = {}
-        self.birth_date = None
+        self.birth_date = ''
         self.birth_date_string = ''
         self.age = ''
         self.weight = ''
@@ -483,8 +486,8 @@ class Guardian2(BaseDoc):
         self.address['state'] = valueDict["addr_state"].strip().upper()
         self.address['zip'] = valueDict["addr_zip"].strip()
         self.address['phone_day'] = self.fix_phone_numbers(valueDict["addr_phone_day"].strip())
-        self.address['phone_mbl'] = self.fix_phone_numbers(valueDict["addr_phone_eve"].strip())
-        self.address['phone_eve'] = self.fix_phone_numbers(valueDict["addr_phone_mbl"].strip())
+        self.address['phone_eve'] = self.fix_phone_numbers(valueDict["addr_phone_eve"].strip())
+        self.address['phone_mbl'] = self.fix_phone_numbers(valueDict["addr_phone_mbl"].strip())
         self.address['email'] = valueDict["addr_email"].strip()
 
         self.birth_date = valueDict["birth_date"].strip()
@@ -505,5 +508,6 @@ class Guardian2(BaseDoc):
 
         self.flight['paid'] = valueDict["flight_paid"].strip() == 'Yes'
         self.flight['status_note'] = valueDict["flight_status_notes"].strip()
+        self.flight['vaccinated'] = valueDict["flight_vaccinated"].strip() == 'Yes'
 
         self.veteran = { 'pref_notes': valueDict["veteran_pref_notes"].strip(), 'pairings': [], 'history': [] }
