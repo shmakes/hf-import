@@ -507,7 +507,7 @@ class Guardian2(BaseDoc):
         self.notes['other'] = valueDict["notes_other"].strip()
 
         self.flight['paid'] = valueDict["flight_paid"].strip() == 'Yes'
-        self.flight['status_note'] = valueDict["flight_status_notes"].strip()
+        self.flight['status_note'] = valueDict["flight_status_note"].strip()
         self.flight['vaccinated'] = valueDict["flight_vaccinated"].strip() == 'Yes'
 
         self.veteran = { 'pref_notes': valueDict["veteran_pref_notes"].strip(), 'pairings': [], 'history': [] }
